@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cartelera del Centro de Estudiantes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafafa;--card:#fff;--fg:#1b1d24;--mut:#707684;--line:#e6e8ee;--acc:#3a4bff;--heart:#ff3d7f;--ring:linear-gradient(45deg,#ffb020,#ff3d7f,#7a3cff)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c0d12;--card:#15171e;--fg:#f1f2f6;--mut:#9aa0ae;--line:#262935}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 'Plus Jakarta Sans',system-ui,sans-serif;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:470px;margin:0 auto}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+header.top .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
+.brand-mark{width:36px;height:36px;border-radius:50%;background:var(--ring);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;overflow:hidden}
+.brand-mark img{width:100%;height:100%;object-fit:cover}
+h1{font-size:17px;font-weight:800;margin:0;flex:1;letter-spacing:-.01em}
+#who{width:34px;height:34px;border-radius:50%;border:2px solid var(--acc);background:var(--card);font-weight:800}
+.cats{display:flex;gap:14px;overflow-x:auto;padding:14px 16px;scrollbar-width:none}
+.cat{flex:none;background:none;border:0;font-size:12px;text-align:center;color:var(--mut);padding:0}
+.cat i{display:block;width:60px;height:60px;border-radius:50%;background:var(--line);padding:2.5px;margin-bottom:4px}
+.cat i b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--bg);font-size:25px}
+.cat.on{color:var(--fg);font-weight:600}.cat.on i{background:var(--ring)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:0 0 18px;overflow:hidden}
+.card header{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--ring);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.card header b{display:block;font-size:14px;line-height:1.2}
+.card header small{color:var(--mut);font-size:12px}
+.ph{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;background:var(--line)}
+.ph img{flex:none;width:100%;aspect-ratio:4/5;object-fit:cover;scroll-snap-align:center}
+.act{display:flex;gap:4px;padding:6px 8px 0;align-items:center}
+.act button,.act a{background:none;border:0;font-size:25px;line-height:1;padding:6px 8px;text-decoration:none;color:var(--fg)}
+.act .on{color:var(--heart)}
+.lk{margin:0;padding:0 14px;font-weight:600;font-size:14px}
+.tx{margin:2px 0 0;padding:4px 14px 14px;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.tx.open{display:block}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:0 3px}
+.g{border:0;padding:0;background:var(--line);aspect-ratio:1}
+.g img{width:100%;height:100%;object-fit:cover;display:block}
+.empty{text-align:center;color:var(--mut);padding:48px 24px}
+nav.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--bg);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav.bar .wrap{display:flex}
+nav.bar button{flex:1;background:none;border:0;padding:8px 0 6px;font-size:11px;color:var(--mut)}
+nav.bar button span{display:block;font-size:22px;line-height:1.2}
+nav.bar button.on{color:var(--fg);font-weight:600}
+nav.bar [hidden]{display:none}
+form.f{display:grid;gap:10px;padding:0 16px 20px}
+form.f input,form.f select,form.f textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-weight:600}
+.btn.sec{background:var(--card);color:var(--fg);border:1px solid var(--line)}
+.btn:disabled{opacity:.6}
+.pv{display:flex;gap:6px;flex-wrap:wrap}.pv img{width:56px;height:56px;object-fit:cover;border-radius:8px}
+.bd{margin:0;padding:8px 14px;font-size:13px;border-top:1px solid var(--line);color:var(--mut)}
+.bd.rechazada{color:var(--heart)}
+.row{display:flex;gap:8px;padding:0 14px 14px}
+h2{font-size:16px;margin:8px 16px}
+dialog{border:0;border-radius:16px;padding:0;width:min(470px,calc(100vw - 24px));background:var(--card);color:var(--fg);max-height:92vh}
+dialog::backdrop{background:#000a}
+#shl{display:grid;gap:8px;padding:16px}#shl a{text-align:center;text-decoration:none}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;z-index:9;max-width:90vw}
+.demo{margin:0 16px 14px;font-size:13px;color:var(--mut)}
+@media(prefers-reduced-motion:no-preference){.ph{scroll-behavior:smooth}}
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand-mark" id="brandMark"><span>CE</span></div>
+  <h1>Centro de Estudiantes</h1>
+  <button class="btn" id="gbtn" onclick="$('#lg').showModal()">Ingresar</button><button id="who" hidden aria-label="Cerrar sesión"></button>
+</div></header>
+<div class="wrap">
+  <div class="cats" id="cats"></div>
+  <main id="main"></main>
+</div>
+<nav class="bar"><div class="wrap">
+  <button data-v="feed" class="on"><span>🏠</span>Inicio</button>
+  <button data-v="gal"><span>🖼️</span>Galería</button>
+  <button data-v="new" id="nNew" hidden><span>➕</span>Publicar</button>
+  <button data-v="rev" id="nRev" hidden><span>✅</span>Revisar</button>
+  <button data-v="acc" id="nAcc" hidden><span>👤</span>Cuenta</button>
+</div></nav>
+<dialog id="one"><div style="text-align:right;padding:6px 10px 0"><button class="btn sec" onclick="$('#one').close()" aria-label="Cerrar">✕</button></div><div id="oneb" style="padding:6px"></div></dialog>
+<dialog id="sh"><h2>Compartir</h2><div id="shl"></div><div style="padding:0 16px 16px"><button class="btn sec" style="width:100%" onclick="$('#sh').close()">Cerrar</button></div></dialog>
+<dialog id="lg"><h2>Ingresar</h2><form class="f" onsubmit="login(event)"><input name="usuario" placeholder="Usuario" autocomplete="username" required><input name="clave" type="password" placeholder="Contraseña" autocomplete="current-password" required><button class="btn" type="submit">Ingresar</button><button class="btn sec" type="button" onclick="$('#lg').close()">Cancelar</button></form></dialog>
+<div id="toast" hidden></div>
+<script>
+// ===== CONFIGURACIÓN: completá este valor =====
+const API_URL = "https://script.google.com/macros/s/AKfycbzP-ZcRpIXlgAnx6ETdkxmJ9Vrc9fsGCO5QmjFeH2ZR5v6Zinkp8FGFvjfgyhpXWKFK/exec";    // URL de Apps Script (termina en /exec). Vacío = modo demo
+// =====================================================
+const CATS={Novedades:"📰",Eventos:"🎉",Deportes:"⚽",Cultura:"🎭",Avisos:"📌"};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+let posts=[],cat="",view="feed",tok=sessionStorage.getItem("tok")||"",me=null,liked=get("liked",[]);
+const now=new Date().toISOString();
+const DEMO=[
+ {id:"d1",titulo:"Torneo interdivisiones",cuerpo:"Abrimos las inscripciones para el torneo de fútbol y vóley. Anotá a tu curso con tu delegado hasta el viernes.",categoria:"Deportes",link:"",fotos:["https://picsum.photos/seed/ce1/800/1000"],autor:"Centro de Estudiantes",fecha:now,likes:24},
+ {id:"d2",titulo:"Feria de ciencias",cuerpo:"El jueves a las 15 hs se muestran los proyectos de todos los años. Entrada libre.",categoria:"Eventos",link:"https://example.com",fotos:["https://picsum.photos/seed/ce2/800/1000","https://picsum.photos/seed/ce3/800/1000"],autor:"Centro de Estudiantes",fecha:now,likes:51},
+ {id:"d3",titulo:"Cambio de horario del buffet",cuerpo:"Desde la semana próxima el buffet abre a las 9:30.",categoria:"Avisos",link:"",fotos:[],autor:"Centro de Estudiantes",fecha:now,likes:7}];
+const api=b=>API_URL?fetch(API_URL,{method:"POST",body:JSON.stringify({...b,token:tok})}).then(r=>r.json()).then(r=>{if(r.error==="auth"){tok="";sessionStorage.removeItem("tok");setMe(null);r.error="Tu sesión venció. Volvé a ingresar."}return r}).catch(()=>({error:"No hay conexión. Probá de nuevo."})):Promise.resolve({error:"Modo demo: configurá API_URL."});
+const ago=d=>{const m=(Date.now()-new Date(d))/6e4;return m<60?`hace ${Math.max(1,m|0)} min`:m<1440?`hace ${m/60|0} h`:m<10080?`hace ${m/1440|0} d`:new Date(d).toLocaleDateString("es-AR")};
+const toast=t=>{const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,3200)};
+const badge=p=>`<p class="bd ${p.estado}">${{pendiente:"Pendiente de revisión",aprobada:"Publicada",rechazada:"Rechazada"}[p.estado]||""}${p.motivo?": "+esc(p.motivo):""}</p>`;
+
+function card(p,extra=""){
+  const on=liked.includes(p.id);
+  return `<article class="card" id="p${p.id}">
+  <header><div class="av">${esc((p.autor||"?")[0].toUpperCase())}</div><div><b>${esc(p.autor)}</b><small>${CATS[p.categoria]||""} ${esc(p.categoria)} - ${ago(p.fecha)}</small></div></header>
+  ${p.fotos.length?`<div class="ph" ondblclick="like('${p.id}')">${p.fotos.map(f=>`<img loading="lazy" src="${esc(f)}" alt="${esc(p.titulo)}">`).join("")}</div>`:""}
+  <div class="act"><button class="${on?"on":""}" onclick="like('${p.id}')" aria-label="Me gusta">${on?"♥":"♡"}</button><button onclick="share('${p.id}')" aria-label="Compartir">↗</button>${/^https?:/.test(p.link)?`<a href="${esc(p.link)}" target="_blank" rel="noopener" aria-label="Abrir enlace">🔗</a>`:""}</div>
+  <p class="lk">${p.likes} me gusta</p>
+  <p class="tx" onclick="this.classList.toggle('open')"><b>${esc(p.titulo)}</b> ${esc(p.cuerpo)}</p>${extra}</article>`;
+}
+
+async function load(){
+  if(API_URL){try{posts=await (await fetch(API_URL)).json()}catch{posts=[];toast("No se pudo cargar la cartelera. Probá de nuevo.")}}else posts=DEMO;
+  draw();
+  const m=location.hash.match(/p=(\w+)/);if(m)openOne(m[1]);
+}
+function chips(){
+  $("#cats").innerHTML=[["","🏫","Todo"],...Object.entries(CATS).map(([k,v])=>[k,v,k])].map(([k,e,l])=>`<button class="cat ${cat===k?"on":""}" onclick="setCat('${k}')"><i><b>${e}</b></i>${l}</button>`).join("");
+}
+const setCat=c=>{cat=c;chips();draw()};
+function setView(v){
+  view=v;document.querySelectorAll("nav.bar button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  $("#cats").hidden=v!=="feed";draw();scrollTo(0,0);
+}
+async function draw(){
+  const m=$("#main");
+  if(view==="feed"){const l=posts.filter(p=>!cat||p.categoria===cat);m.innerHTML=(API_URL?"":`<p class="demo">Modo demo: estas publicaciones son de ejemplo.</p>`)+(l.map(p=>card(p)).join("")||`<p class="empty">Todavía no hay publicaciones en esta categoría.</p>`)}
+  else if(view==="gal"){const l=posts.filter(p=>p.fotos.length);m.innerHTML=l.length?`<div class="gal">${l.map(p=>`<button class="g" onclick="openOne('${p.id}')"><img loading="lazy" src="${esc(p.fotos[0])}" alt="${esc(p.titulo)}"></button>`).join("")}</div>`:`<p class="empty">Todavía no hay fotos en la galería.</p>`}
+  else if(view==="acc")account(m);
+  else{
+    if(!me)return m.innerHTML=`<p class="empty">Iniciá sesión para ${view==="new"?"publicar":"revisar publicaciones"}.</p>`;
+    const r=await api({a:"panel"});if(r.error)return m.innerHTML=`<p class="empty">${esc(r.error)}</p>`;
+    if(view==="new")m.innerHTML=`<form class="f" onsubmit="send(event)">
+      <select name="categoria">${Object.keys(CATS).map(c=>`<option>${c}</option>`)}</select>
+      <input name="titulo" placeholder="Título" maxlength="120" required>
+      <textarea name="cuerpo" rows="5" placeholder="Escribí el texto de la publicación" maxlength="2000" required></textarea>
+      <input name="link" type="url" placeholder="Enlace (opcional)">
+      <input name="fotos" type="file" accept="image/*" multiple onchange="prev(this)">
+      <div class="pv" id="pv"></div>
+      <button class="btn" type="submit">Publicar</button></form>
+      <h2>Tus publicaciones</h2>${r.items.map(p=>card(p,badge(p))).join("")||`<p class="empty">Todavía no publicaste nada.</p>`}`;
+    else m.innerHTML=r.items.map(p=>card(p,`<div class="row"><button class="btn" onclick="review('${p.id}',true)">Aprobar</button><button class="btn sec" onclick="review('${p.id}',false)">Rechazar</button></div>`)).join("")||`<p class="empty">No hay publicaciones pendientes.</p>`;
+  }
+}
+const small=f=>new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,1080/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*k;c.height=i.height*k;c.getContext("2d").drawImage(i,0,0,c.width,c.height);r(c.toDataURL("image/jpeg",.82))};i.src=URL.createObjectURL(f)});
+async function prev(inp){$("#pv").innerHTML=[...inp.files].slice(0,5).map(f=>`<img src="${URL.createObjectURL(f)}" alt="">`).join("")}
+async function send(e){
+  e.preventDefault();const f=e.target,b=f.querySelector("[type=submit]");b.disabled=true;b.textContent="Publicando...";
+  const fotos=await Promise.all([...f.fotos.files].slice(0,5).map(small));
+  const r=await api({a:"create",titulo:f.titulo.value,cuerpo:f.cuerpo.value,categoria:f.categoria.value,link:f.link.value,fotos});
+  if(r.ok){toast(r.estado==="aprobada"?"Publicado":"Enviado a Dirección");await load()}else{b.disabled=false;b.textContent="Publicar";toast(r.error||"No se pudo publicar. Probá de nuevo.")}
+}
+async function review(id,ok){
+  let motivo="";if(!ok){motivo=prompt("Motivo del rechazo (lo ve quien redactó)");if(motivo===null)return}
+  const r=await api({a:"review",id,ok,motivo});
+  if(r.ok){toast(ok?"Aprobado":"Rechazado");load()}else toast(r.error||"No se pudo guardar. Probá de nuevo.");
+}
+function like(id){
+  if(liked.includes(id))return;liked.push(id);try{localStorage.setItem("liked",JSON.stringify(liked))}catch{}
+  const p=posts.find(x=>x.id===id);if(p)p.likes++;
+  document.querySelectorAll("#p"+id).forEach(c=>{c.querySelector(".lk").textContent=(p?p.likes:"")+" me gusta";const b=c.querySelector(".act button");b.classList.add("on");b.textContent="♥"});
+  if(API_URL)api({a:"like",id});
+}
+function openOne(id){const p=posts.find(x=>x.id===id);if(!p)return;$("#oneb").innerHTML=card(p);$("#one").showModal()}
+$("#one").addEventListener("close",()=>history.replaceState(null,"",location.pathname+location.search));
+const copy=u=>navigator.clipboard.writeText(u).then(()=>{toast("Enlace copiado");$("#sh").close()});
+function share(id){
+  const p=posts.find(x=>x.id===id),u=location.href.split("#")[0]+"#p="+id,t=p.titulo;
+  if(navigator.share)return navigator.share({title:t,text:t,url:u}).catch(()=>{});
+  const e=encodeURIComponent;
+  const L=[["WhatsApp","https://wa.me/?text="+e(t+" "+u)],["Facebook","https://www.facebook.com/sharer/sharer.php?u="+e(u)],["X","https://twitter.com/intent/tweet?text="+e(t)+"&url="+e(u)],["Telegram","https://t.me/share/url?url="+e(u)+"&text="+e(t)]];
+  $("#shl").innerHTML=L.map(([n,h])=>`<a class="btn sec" href="${h}" target="_blank" rel="noopener">${n}</a>`).join("")+`<button class="btn" onclick="copy('${u}')">Copiar enlace</button>`;
+  $("#sh").showModal();
+}
+function account(m){
+  if(!me)return m.innerHTML=`<p class="empty">Iniciá sesión para ver tu cuenta.</p>`;
+  m.innerHTML=`<h2>Cambiar mi contraseña</h2><form class="f" onsubmit="chpass(event)"><input name="vieja" type="password" placeholder="Contraseña actual" autocomplete="current-password" required><input name="nueva" type="password" placeholder="Contraseña nueva (mínimo 8 caracteres)" autocomplete="new-password" minlength="8" required><button class="btn" type="submit">Guardar contraseña</button></form>`+(me.rol==="direccion"?`<h2>Agregar o actualizar usuario</h2><form class="f" onsubmit="adduser(event)"><input name="usuario" placeholder="Usuario (sin espacios)" required><input name="nombre" placeholder="Nombre que se ve en las publicaciones" required><select name="rol"><option value="redaccion">Redacción</option><option value="direccion">Dirección</option></select><input name="clave" placeholder="Contraseña inicial (mínimo 8 caracteres)" minlength="8" required><input name="email" type="email" placeholder="Mail para avisos (opcional)"><button class="btn" type="submit">Guardar usuario</button></form><p class="demo">Si el usuario ya existe, se le cambia la contraseña y el rol. Para dar de baja a alguien, borrá su fila en la hoja Usuarios.</p>`:"");
+}
+const act=async(e,b,ok)=>{e.preventDefault();const f=e.target,r=await api(b(f));if(r.ok){toast(ok);f.reset()}else toast(r.error||"No se pudo guardar. Probá de nuevo.")};
+const chpass=e=>act(e,f=>({a:"pass",vieja:f.vieja.value,nueva:f.nueva.value}),"Contraseña guardada");
+const adduser=e=>act(e,f=>({a:"user",usuario:f.usuario.value,nombre:f.nombre.value,rol:f.rol.value,clave:f.clave.value,email:f.email.value}),"Usuario guardado");
+async function login(e){
+  e.preventDefault();const f=e.target,b=f.querySelector("[type=submit]");b.disabled=true;
+  const r=await api({a:"login",usuario:f.usuario.value,clave:f.clave.value});b.disabled=false;
+  if(r.token){tok=r.token;sessionStorage.setItem("tok",tok);f.reset();$("#lg").close();setMe(r.me)}else toast(r.error||"No se pudo ingresar. Probá de nuevo.");
+}
+function setMe(u){
+  me=u;const w=$("#who");$("#gbtn").hidden=!!u;w.hidden=!u;
+  if(u){w.textContent=(u.nombre||u.usuario)[0].toUpperCase();if(!u.rol)toast("Tu usuario no tiene rol asignado. Pedile a Dirección que lo revise.")}
+  $("#nNew").hidden=!u?.rol;$("#nRev").hidden=u?.rol!=="direccion";$("#nAcc").hidden=!u;
+  if(view!=="feed"&&view!=="gal")draw();
+}
+async function auth(){
+  if(!tok)return;const r=await api({a:"me"});
+  if(r.me)setMe(r.me);else{tok="";sessionStorage.removeItem("tok")}
+}
+$("#who").onclick=()=>{tok="";sessionStorage.removeItem("tok");setMe(null);setView("feed")};
+document.querySelectorAll("nav.bar button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
+chips();load();auth();
+</script></body></html>
