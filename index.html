@@ -69,25 +69,26 @@ dialog::backdrop{background:#000a}
 #toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;z-index:9;max-width:90vw}
 .demo{margin:0 16px 14px;font-size:13px;color:var(--mut)}
 .pill{color:#fff;border-radius:99px;padding:1px 8px;font-size:11px;font-weight:600;margin-right:6px}
-.val{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:14px 16px}
-.val b{display:block;font-size:15px}.val span{color:var(--mut);font-size:13px}
-.vt{font-size:16px;margin:4px 0}.valmob{display:grid;gap:10px;padding:0 16px 12px}.side{display:none}
-@media(min-width:1040px){.shell{display:grid;grid-template-columns:1fr 470px 1fr;gap:28px;max-width:1280px;margin:0 auto;padding:20px 24px}.side{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:96px}.valmob{display:none}}
+.shell{position:relative;z-index:1}
+#wm{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+#wm div{position:absolute;left:-40%;top:-40%;width:180%;display:flex;flex-wrap:wrap;gap:6px 56px;transform:rotate(-24deg);font-weight:800;font-size:clamp(26px,4.2vw,54px);line-height:1.5;letter-spacing:-.02em}
+#wm span{opacity:.07;white-space:nowrap}
+#wm span:nth-child(3n+1){color:var(--navy)}#wm span:nth-child(3n+2){color:var(--red)}#wm span:nth-child(3n){color:#12994a}
+@media(prefers-color-scheme:dark){#wm span{opacity:.11}#wm span:nth-child(3n+1){color:#6f8cf0}}
 @media(prefers-reduced-motion:no-preference){.ph{scroll-behavior:smooth}}
 </style></head>
 <body>
+<div id="wm" aria-hidden="true"></div>
 <header class="top"><div class="wrap">
   <div class="brand-mark" id="brandMark"><img src="logo-ce.png" alt="Centro de Estudiantes"></div>
   <h1>Centro de Estudiantes</h1>
   <button class="btn" id="gbtn" onclick="$('#lg').showModal()">Ingresar</button><button id="who" hidden aria-label="Cerrar sesión"></button>
 </div></header>
-<div class="shell"><aside class="side" id="sideL"></aside>
-<div class="wrap">
+<div class="shell"><div class="wrap">
   <div class="cats" id="cats"></div>
   <main id="main"></main>
-  <section class="valmob" id="valMob"></section>
   <footer class="foot"><img src="escudo.png" alt=""><span>Colegio Perito Moreno, González Catán</span></footer>
-</div><aside class="side" id="sideR"></aside></div>
+</div></div>
 <nav class="bar"><div class="wrap">
   <button data-v="feed" class="on"><span>🏠</span>Inicio</button>
   <button data-v="gal"><span>🖼️</span>Galería</button>
@@ -105,10 +106,9 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzP-ZcRpIXlgAnx6ETdkxmJ
 // =====================================================
 const CATS={Novedades:"📰",Eventos:"🎉",Deportes:"⚽",Cultura:"🎭",Avisos:"📌"};
 const CATC={Novedades:"#12295f",Eventos:"#d80f1e",Deportes:"#12994a",Cultura:"#7a3cff",Avisos:"#e69a00"};
-// VALORES DEL CENTRO: [emoji, título, frase]. Reemplazá estos textos por los reales.
+// VALORES DEL CENTRO: se muestran como marca de agua en diagonal (se usa el título). Reemplazá estos textos por los reales.
 const VALORES=[["🤝","Compañerismo","Nadie se queda solo: nos apoyamos entre todos."],["🗣️","Participación","Todas las voces cuentan y todos pueden proponer."],["⚖️","Respeto","Convivimos escuchando y valorando las diferencias."],["💪","Compromiso","Cumplimos lo que prometemos y trabajamos en equipo."],["🌱","Solidaridad","Ayudamos a quien lo necesita, dentro y fuera del colegio."],["📣","Transparencia","Contamos qué hacemos y cómo lo decidimos."]];
-const vcard=(v,i)=>`<div class="val" style="--c:${["#12295f","#d80f1e","#12994a"][i%3]}"><b>${v[0]} ${esc(v[1])}</b><span>${esc(v[2])}</span></div>`;
-function valores(){const h=Math.ceil(VALORES.length/2),t=`<h2 class="vt">Nuestros valores</h2>`;$("#sideL").innerHTML=t+VALORES.slice(0,h).map(vcard).join("");$("#sideR").innerHTML=VALORES.slice(h).map((v,i)=>vcard(v,i+h)).join("");$("#valMob").innerHTML=t+VALORES.map(vcard).join("")}
+function valores(){const t=VALORES.map(v=>v[1]);$("#wm").innerHTML="<div>"+Array.from({length:160},(_,i)=>`<span>${esc(t[i%t.length])}</span>`).join("")+"</div>"}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
