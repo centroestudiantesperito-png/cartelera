@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fafafa;--card:#fff;--fg:#1b1d24;--mut:#707684;--line:#e6e8ee;--acc:#12295f;--heart:#d80f1e;--ring:linear-gradient(45deg,#12295f,#d80f1e)}
+:root{--bg:#edf0f8;--navy:#12295f;--red:#d80f1e;--card:#fff;--fg:#1b1d24;--mut:#707684;--line:#e6e8ee;--acc:#12295f;--heart:#d80f1e;--ring:linear-gradient(45deg,#12295f,#d80f1e)}
 @media(prefers-color-scheme:dark){:root{--bg:#0c0d12;--card:#15171e;--fg:#f1f2f6;--mut:#9aa0ae;--line:#262935;--acc:#6f8cf0}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 'Plus Jakarta Sans',system-ui,sans-serif;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
@@ -17,18 +17,19 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .wrap{max-width:470px;margin:0 auto}
-header.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+header.top{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff;border-bottom:3px solid var(--red);padding-top:env(safe-area-inset-top)}
+header.top .btn{background:#fff;color:var(--navy)}
 header.top .wrap{display:flex;align-items:center;gap:10px;padding:10px 16px}
 .brand-mark{width:40px;height:40px;flex:none}
 .brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
 .foot{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--mut);font-size:13px;padding:8px 16px 24px}.foot img{width:32px;height:auto}
 h1{font-size:17px;font-weight:800;margin:0;flex:1;letter-spacing:-.01em}
-#who{width:34px;height:34px;border-radius:50%;border:2px solid var(--acc);background:var(--card);font-weight:800}
+#who{width:34px;height:34px;border-radius:50%;border:2px solid #fff;background:transparent;color:#fff;font-weight:800}
 .cats{display:flex;gap:14px;overflow-x:auto;padding:14px 16px;scrollbar-width:none}
 .cat{flex:none;background:none;border:0;font-size:12px;text-align:center;color:var(--mut);padding:0}
 .cat i{display:block;width:60px;height:60px;border-radius:50%;background:var(--line);padding:2.5px;margin-bottom:4px}
 .cat i b{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--bg);font-size:25px}
-.cat.on{color:var(--fg);font-weight:600}.cat.on i{background:var(--ring)}
+.cat.on{color:var(--fg);font-weight:600}.cat.on i{background:var(--c)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:0 0 18px;overflow:hidden}
 .card header{display:flex;align-items:center;gap:10px;padding:10px 12px}
 .av{width:34px;height:34px;border-radius:50%;background:var(--ring);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
@@ -50,7 +51,7 @@ nav.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--bg);bo
 nav.bar .wrap{display:flex}
 nav.bar button{flex:1;background:none;border:0;padding:8px 0 6px;font-size:11px;color:var(--mut)}
 nav.bar button span{display:block;font-size:22px;line-height:1.2}
-nav.bar button.on{color:var(--fg);font-weight:600}
+nav.bar button.on{color:var(--red);font-weight:600}
 nav.bar [hidden]{display:none}
 form.f{display:grid;gap:10px;padding:0 16px 20px}
 form.f input,form.f select,form.f textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
@@ -67,6 +68,11 @@ dialog::backdrop{background:#000a}
 #shl{display:grid;gap:8px;padding:16px}#shl a{text-align:center;text-decoration:none}
 #toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;z-index:9;max-width:90vw}
 .demo{margin:0 16px 14px;font-size:13px;color:var(--mut)}
+.pill{color:#fff;border-radius:99px;padding:1px 8px;font-size:11px;font-weight:600;margin-right:6px}
+.val{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:14px 16px}
+.val b{display:block;font-size:15px}.val span{color:var(--mut);font-size:13px}
+.vt{font-size:16px;margin:4px 0}.valmob{display:grid;gap:10px;padding:0 16px 12px}.side{display:none}
+@media(min-width:1040px){.shell{display:grid;grid-template-columns:1fr 470px 1fr;gap:28px;max-width:1280px;margin:0 auto;padding:20px 24px}.side{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:96px}.valmob{display:none}}
 @media(prefers-reduced-motion:no-preference){.ph{scroll-behavior:smooth}}
 </style></head>
 <body>
@@ -75,11 +81,13 @@ dialog::backdrop{background:#000a}
   <h1>Centro de Estudiantes</h1>
   <button class="btn" id="gbtn" onclick="$('#lg').showModal()">Ingresar</button><button id="who" hidden aria-label="Cerrar sesión"></button>
 </div></header>
+<div class="shell"><aside class="side" id="sideL"></aside>
 <div class="wrap">
   <div class="cats" id="cats"></div>
   <main id="main"></main>
+  <section class="valmob" id="valMob"></section>
   <footer class="foot"><img src="escudo.png" alt=""><span>Colegio Perito Moreno, González Catán</span></footer>
-</div>
+</div><aside class="side" id="sideR"></aside></div>
 <nav class="bar"><div class="wrap">
   <button data-v="feed" class="on"><span>🏠</span>Inicio</button>
   <button data-v="gal"><span>🖼️</span>Galería</button>
@@ -96,6 +104,11 @@ dialog::backdrop{background:#000a}
 const API_URL = "https://script.google.com/macros/s/AKfycbzP-ZcRpIXlgAnx6ETdkxmJ9Vrc9fsGCO5QmjFeH2ZR5v6Zinkp8FGFvjfgyhpXWKFK/exec";    // URL de Apps Script (termina en /exec). Vacío = modo demo
 // =====================================================
 const CATS={Novedades:"📰",Eventos:"🎉",Deportes:"⚽",Cultura:"🎭",Avisos:"📌"};
+const CATC={Novedades:"#12295f",Eventos:"#d80f1e",Deportes:"#12994a",Cultura:"#7a3cff",Avisos:"#e69a00"};
+// VALORES DEL CENTRO: [emoji, título, frase]. Reemplazá estos textos por los reales.
+const VALORES=[["🤝","Compañerismo","Nadie se queda solo: nos apoyamos entre todos."],["🗣️","Participación","Todas las voces cuentan y todos pueden proponer."],["⚖️","Respeto","Convivimos escuchando y valorando las diferencias."],["💪","Compromiso","Cumplimos lo que prometemos y trabajamos en equipo."],["🌱","Solidaridad","Ayudamos a quien lo necesita, dentro y fuera del colegio."],["📣","Transparencia","Contamos qué hacemos y cómo lo decidimos."]];
+const vcard=(v,i)=>`<div class="val" style="--c:${["#12295f","#d80f1e","#12994a"][i%3]}"><b>${v[0]} ${esc(v[1])}</b><span>${esc(v[2])}</span></div>`;
+function valores(){const h=Math.ceil(VALORES.length/2),t=`<h2 class="vt">Nuestros valores</h2>`;$("#sideL").innerHTML=t+VALORES.slice(0,h).map(vcard).join("");$("#sideR").innerHTML=VALORES.slice(h).map((v,i)=>vcard(v,i+h)).join("");$("#valMob").innerHTML=t+VALORES.map(vcard).join("")}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
@@ -113,7 +126,7 @@ const badge=p=>`<p class="bd ${p.estado}">${{pendiente:"Pendiente de revisión",
 function card(p,extra=""){
   const on=liked.includes(p.id);
   return `<article class="card" id="p${p.id}">
-  <header><div class="av">${esc((p.autor||"?")[0].toUpperCase())}</div><div><b>${esc(p.autor)}</b><small>${CATS[p.categoria]||""} ${esc(p.categoria)} - ${ago(p.fecha)}</small></div></header>
+  <header><div class="av">${esc((p.autor||"?")[0].toUpperCase())}</div><div><b>${esc(p.autor)}</b><small><span class="pill" style="background:${CATC[p.categoria]||"#666"}">${CATS[p.categoria]||""} ${esc(p.categoria)}</span>${ago(p.fecha)}</small></div></header>
   ${p.fotos.length?`<div class="ph" ondblclick="like('${p.id}')">${p.fotos.map(f=>`<img loading="lazy" src="${esc(f)}" alt="${esc(p.titulo)}">`).join("")}</div>`:""}
   <div class="act"><button class="${on?"on":""}" onclick="like('${p.id}')" aria-label="Me gusta">${on?"♥":"♡"}</button><button onclick="share('${p.id}')" aria-label="Compartir">↗</button>${/^https?:/.test(p.link)?`<a href="${esc(p.link)}" target="_blank" rel="noopener" aria-label="Abrir enlace">🔗</a>`:""}</div>
   <p class="lk">${p.likes} me gusta</p>
@@ -126,7 +139,7 @@ async function load(){
   const m=location.hash.match(/p=(\w+)/);if(m)openOne(m[1]);
 }
 function chips(){
-  $("#cats").innerHTML=[["","🏫","Todo"],...Object.entries(CATS).map(([k,v])=>[k,v,k])].map(([k,e,l])=>`<button class="cat ${cat===k?"on":""}" onclick="setCat('${k}')"><i><b>${e}</b></i>${l}</button>`).join("");
+  $("#cats").innerHTML=[["","🏫","Todo"],...Object.entries(CATS).map(([k,v])=>[k,v,k])].map(([k,e,l])=>`<button class="cat ${cat===k?"on":""}" style="--c:${CATC[k]||"var(--ring)"}" onclick="setCat('${k}')"><i><b>${e}</b></i>${l}</button>`).join("");
 }
 const setCat=c=>{cat=c;chips();draw()};
 function setView(v){
@@ -207,5 +220,5 @@ async function auth(){
 }
 $("#who").onclick=()=>{tok="";sessionStorage.removeItem("tok");setMe(null);setView("feed")};
 document.querySelectorAll("nav.bar button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
-chips();load();auth();
+chips();valores();load();auth();
 </script></body></html>
