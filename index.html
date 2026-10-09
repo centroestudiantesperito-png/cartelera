@@ -96,6 +96,19 @@ body.introOn{overflow:hidden}
 .iesc img{width:28px;height:auto}
 @keyframes sube{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.coin{animation:none}.itx,#enter,.iesc{animation-duration:.01s;animation-delay:0s}}
+
+/* ===== LIGHTBOX ===== */
+#lb{position:fixed;inset:0;z-index:150;background:#000e;display:none;flex-direction:column;align-items:center;justify-content:center;touch-action:pan-y}
+#lb.on{display:flex}
+#lb .im{max-width:100vw;max-height:78vh;object-fit:contain;user-select:none;-webkit-user-drag:none}
+#lb .cap{color:#fff;text-align:center;padding:12px 70px 0;font-weight:600;max-width:470px}
+#lb .cnt{position:absolute;top:calc(14px + env(safe-area-inset-top));left:16px;color:#fff;font-size:14px;font-weight:600}
+#lb button{position:absolute;background:#0007;color:#fff;border:0;border-radius:50%;width:46px;height:46px;font-size:24px;line-height:1;display:grid;place-items:center}
+#lb .x{top:calc(8px + env(safe-area-inset-top));right:12px}
+#lb .pv2{left:10px;top:50%;transform:translateY(-50%)}
+#lb .nx{right:10px;top:50%;transform:translateY(-50%)}
+#lb .ver{position:static;border-radius:999px;width:auto;height:auto;padding:9px 18px;font-size:14px;font-weight:600;margin-top:10px;background:var(--red)}
+#lb [hidden]{display:none}
 </style></head>
 <body class="introOn">
 <div id="intro" role="dialog" aria-label="Bienvenida">
@@ -125,6 +138,15 @@ body.introOn{overflow:hidden}
 <dialog id="one"><div style="text-align:right;padding:6px 10px 0"><button class="btn sec" onclick="$('#one').close()" aria-label="Cerrar">✕</button></div><div id="oneb" style="padding:6px"></div></dialog>
 <dialog id="sh"><h2>Compartir</h2><div id="shl"></div><div style="padding:0 16px 16px"><button class="btn sec" style="width:100%" onclick="$('#sh').close()">Cerrar</button></div></dialog>
 <dialog id="lg"><h2>Ingresar</h2><form class="f" onsubmit="login(event)"><input name="usuario" placeholder="Usuario" autocomplete="username" required><input name="clave" type="password" placeholder="Contraseña" autocomplete="current-password" required><button class="btn" type="submit">Ingresar</button><button class="btn sec" type="button" onclick="$('#lg').close()">Cancelar</button></form></dialog>
+<div id="lb" role="dialog" aria-label="Visor de fotos" aria-hidden="true">
+  <span class="cnt" id="lbN"></span>
+  <button class="x" id="lbX" aria-label="Cerrar">✕</button>
+  <button class="pv2" id="lbP" aria-label="Foto anterior">‹</button>
+  <img class="im" id="lbI" alt="">
+  <button class="nx" id="lbS" aria-label="Foto siguiente">›</button>
+  <div class="cap" id="lbC"></div>
+  <button class="ver" id="lbV">Ver publicación</button>
+</div>
 <div id="toast" hidden></div>
 <script>
 // ===== Imágenes incrustadas: se ven aunque el archivo se abra solo (vista previa) =====
@@ -197,7 +219,7 @@ function setView(v){
 async function draw(){
   const m=$("#main");
   if(view==="feed"){const l=posts.filter(p=>!cat||p.categoria===cat);m.innerHTML=(API_URL?"":`<p class="demo">Modo demo: estas publicaciones son de ejemplo.</p>`)+(l.map(p=>card(p)).join("")||`<p class="empty">Todavía no hay publicaciones en esta categoría.</p>`)}
-  else if(view==="gal"){const l=posts.filter(p=>p.fotos.length);m.innerHTML=l.length?`<div class="gal">${l.map(p=>`<button class="g" onclick="openOne('${p.id}')"><img loading="lazy" src="${esc(p.fotos[0])}" alt="${esc(p.titulo)}"></button>`).join("")}</div>`:`<p class="empty">Todavía no hay fotos en la galería.</p>`}
+  else if(view==="gal"){GAL=posts.flatMap(p=>p.fotos.map(f=>({src:f,id:p.id,t:p.titulo})));m.innerHTML=GAL.length?`<div class="gal">${GAL.map((g,i)=>`<button class="g" onclick="openLb(${i})"><img loading="lazy" src="${esc(g.src)}" alt="${esc(g.t)}"></button>`).join("")}</div>`:`<p class="empty">Todavía no hay fotos en la galería.</p>`}
   else if(view==="acc")account(m);
   else{
     if(!me)return m.innerHTML=`<p class="empty">Iniciá sesión para ${view==="new"?"publicar":"revisar publicaciones"}.</p>`;
@@ -233,6 +255,23 @@ function like(id){
   document.querySelectorAll("#p"+id).forEach(c=>{c.querySelector(".lk").textContent=(p?p.likes:"")+" me gusta";const b=c.querySelector(".act button");b.classList.add("on");b.textContent="♥"});
   if(API_URL)api({a:"like",id});
 }
+let GAL=[],lbI=0;
+function lbShow(){
+  const g=GAL[lbI];if(!g)return;
+  $("#lbI").src=g.src;$("#lbI").alt=g.t;$("#lbC").textContent=g.t;$("#lbN").textContent=(lbI+1)+" / "+GAL.length;
+  const multi=GAL.length>1;$("#lbP").hidden=$("#lbS").hidden=!multi;
+  [lbI-1,lbI+1].forEach(j=>{if(GAL[j]){const im=new Image();im.src=GAL[j].src}});
+}
+function openLb(i){lbI=i;lbShow();const e=$("#lb");e.classList.add("on");e.setAttribute("aria-hidden","false");document.body.style.overflow="hidden"}
+function closeLb(){const e=$("#lb");e.classList.remove("on");e.setAttribute("aria-hidden","true");document.body.style.overflow=""}
+function lbGo(d){if(!GAL.length)return;lbI=(lbI+d+GAL.length)%GAL.length;lbShow()}
+$("#lbX").onclick=closeLb;$("#lbP").onclick=()=>lbGo(-1);$("#lbS").onclick=()=>lbGo(1);
+$("#lbV").onclick=()=>{const id=GAL[lbI].id;closeLb();openOne(id)};
+$("#lb").addEventListener("click",e=>{if(e.target.id==="lb")closeLb()});
+document.addEventListener("keydown",e=>{if(!$("#lb").classList.contains("on"))return;if(e.key==="Escape")closeLb();else if(e.key==="ArrowLeft")lbGo(-1);else if(e.key==="ArrowRight")lbGo(1)});
+let tx0=null;
+$("#lb").addEventListener("touchstart",e=>{tx0=e.touches[0].clientX},{passive:true});
+$("#lb").addEventListener("touchend",e=>{if(tx0===null)return;const dx=e.changedTouches[0].clientX-tx0;tx0=null;if(Math.abs(dx)>50)lbGo(dx<0?1:-1)});
 function openOne(id){const p=posts.find(x=>x.id===id);if(!p)return;$("#oneb").innerHTML=card(p);$("#one").showModal()}
 $("#one").addEventListener("close",()=>history.replaceState(null,"",location.pathname+location.search));
 const copy=u=>navigator.clipboard.writeText(u).then(()=>{toast("Enlace copiado");$("#sh").close()});
